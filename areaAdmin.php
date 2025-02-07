@@ -52,9 +52,11 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] == "usuario") {
                 <select name="seleccionSupervisor">
                     <option value="0">Selecciona un Supervisor</option>
                     <?php
-                    if (!empty($tablaActor)) {
+                    if ($tablaActor) {
                         foreach ($tablaActor as $actoresExistentes) {
-                            echo "<option value='" . $actoresExistentes['cdactor'] . "'>" . $actoresExistentes['nombre'] . "</option>";
+                            ?>
+                            <option value="<?php echo $actoresExistentes['cdactor'] ?>"'><?php echo $actoresExistentes['nombre'] ?></option>;
+                            <?php
                         }
                     }
                     ?>

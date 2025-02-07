@@ -27,7 +27,7 @@ if (isset($_SESSION['usuario']) && $_SESSION['rol'] == "administrador") {
             header("Location: muestraMensajesError.php");
         } else {
             $actorBD = Actor::verActor($codigoActor);
-            $actorSeleccionadoBD = new Actor($actorBD['cdactor'], $actorBD['nombre'], $actorBD['fecha_alta'], $actorBD['cache_base'], $actorBD['sexo'], $actorBD['cdsupervisa'], $actorBD['cdgrupo']);
+            $actorSeleccionadoBD = new Actor($actorBD['cdactor'], $actorBD['nombre'], $actorBD['sexo'], $actorBD['cdgrupo'], $actorBD['fecha_alta'], $actorBD['cache_base'] . $actorBD['cdSupervisa']);
             $actorSeleccionadoBD->setSupervisor($codigoSupervisor);
             if ($actorSeleccionadoBD->guardarActor()) {
                 header("Location: muestraMensajes.php");

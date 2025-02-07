@@ -24,14 +24,14 @@ class Actor {
     private $cdSupervisa;
     private $cdGrupo;
 
-    public function __construct($cdActor, $nombre, $fecha_alta, $cache_base, $sexo, $cdSupervisa, $cdGrupo) {
-        $this->cdActor = $cdActor;
-        $this->nombre = $nombre;
+    public function __construct($cdActor, $nombre, $sexo, $cdGrupo, $fecha_alta = null, $cache_base = null, $cdSupervisa = null) {
+        $this->cdActor = validarCadena($cdActor);
+        $this->nombre = validarCadena($nombre);
         $this->fecha_alta = $fecha_alta;
-        $this->cache_base = $cache_base;
-        $this->sexo = $sexo;
-        $this->cdSupervisa = $cdSupervisa;
-        $this->cdGrupo = $cdGrupo;
+        $this->cache_base = validarNumero($cache_base);
+        $this->sexo = validarCadena($sexo);
+        $this->cdSupervisa = validarCadena($cdSupervisa);
+        $this->cdGrupo = validarCadena($cdGrupo);
     }
 
 //Métodos Getter y Setter
