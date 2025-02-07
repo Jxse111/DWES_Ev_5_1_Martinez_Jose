@@ -23,15 +23,9 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] != "usuario") {
         </head>
         <body>
             <?php
+            require_once './Conexion.php';
             require_once './funcionesValidacion.php';
-            $conexionBD = new mysqli();
-
-            try {
-                $conexionBD->connect("localhost", "root", "", "espectaculos");
-            } catch (Exception $ex) {
-                $mensajeError .= "ERROR: " . $ex->getMessage();
-                $conexionBD->close();
-            }
+            $conexionBD = Conexion::conectarEspectaculosMySQLi();
             try {
                 $consultaReserva = $conexionBD->query("SELECT nombre FROM espectaculo");
                 while ($espectaculos = $consultaReserva->fetch_assoc()) {

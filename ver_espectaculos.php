@@ -14,17 +14,9 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] != "invitado") {
         </head>
         <body>
             <?php
-            $conexionBD = new mysqli();
+            require_once './Conexion.php';
+            $conexionBD = Conexion::conectarEspectaculosMySQLi();
             $espectaculos = [];
-            $mensajeError = "Lista de mensajes de error: ";
-            try {
-                $conexionBD->connect("localhost", "root", "", "espectaculos");
-                $conexionBD->set_charset("utf8mb4");
-            } catch (Exception $ex) {
-                $mensajeError .= "ERROR: " . $ex->getMessage();
-                $conexionBD->close();
-            }
-
             try {
                 $consultaPreparadaTablaEspectaculosEstrellas = $conexionBD->stmt_init();
                 $consultaPreparadaTablaEspectaculosEstrellas->prepare('SELECT nombre, estrellas FROM espectaculo ORDER BY estrellas DESC;');
@@ -116,7 +108,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] != "invitado") {
                     }
                     $consultaPreparadaTablaEspectaculosEstrellas->close();
                     $consultaPreparadaTablaEspectaculosTipo->close();
-                    $conexionBD->close();
+                    Conexion::desconectar();
                 } catch (Exception $ex) {
                     echo "ERROR: " . $ex->getMessage();
                     $mensajeError .= "ERROR: " . $ex->getMessage();
