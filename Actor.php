@@ -114,10 +114,13 @@ class Actor {
                 $consultaExisteActor = $conexionBD->prepare("SELECT * FROM actor WHERE cdactor = ?");
                 $consultaExisteActor->bind_param("s", $codigoActor);
                 if ($consultaExisteActor->execute()) {
-                    $esValido = true;
                     $resultado = $consultaExisteActor->get_result();
                     // Obtener los datos
+                    //Agregar comprobacion de que los datos no estan vacíos
                     $datosActor = $resultado->fetch_assoc();
+                    if ($datosActor) {
+                        $esValido = true;
+                    }
                 }
             } catch (Exception $ex) {
                 echo "ERROR: " . $ex->getMessage();
@@ -144,21 +147,13 @@ class Actor {
 
             // Verificar que la consulta se haya ejecutado y que existan registros
             if ($resultadoConsultaListarActores->num_rows > 0) {
-                while ($datosConsultaListarActores = $resultadoConsultaListarActores->fetch_assoc()) {
-                    $mensajeResultado .= "Actor: ";
-                    // Recorre cada campo del registro
-                    foreach ($datosConsultaListarActores as $campo => $valor) {
-                        $mensajeResultado .= $campo . ": " . $valor;
-                    }
-                }
-            } else {
-                $mensajeResultado = "No se encontraron actores en la base de datos.";
+                $actoresExistentes = $resultadoConsultaListarActores->fetch_all();
             }
         } catch (Exception $ex) {
             $mensajeResultado = "ERROR: " . $ex->getMessage();
         }
         Conexion::desconectar();
-        return $mensajeResultado;
+        return $actoresExistentes;
     }
 
     /**
